@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Markdown转Html</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        #target {
+            padding: 20px;
+            height: auto;
+            border: 5px dashed #c0c0c0;
+            color: #e0e0e0;
+            font-size: 40px;
+            line-height: 50px;
+            text-align: center;
+            -webkit-user-select: none;
+            cursor: pointer;
+        }
+
+        #target.actived {
+            border-color: #888;
+            color: #eaeaea;
+            box-shadow: 0 0 80px #e0e0e0 inset;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu"><label/></div>
+    <!--使菜单栏可拖动-->
+    <div class="container">
+        <div class="page-header">
+            <h1 style="text-align:center;color:blueviolet">Markdown To Html</h1>
+        </div>
+        <div class="jumbotron ">
+
+            <img class="pull-left" src="img/toy.png" alt="">
+            <p class="" style="margin-left:20%;margin-right:10%">你好啊，请将你的markdown文件拖到下面，我将为你工作</p>
+
+        </div>
+        <div id="target">
+            Drag something into here
+        </div>
+        <ul id="fileList" class="list-group" style=" margin-top: 15px;"></ul>
+        <div class="text-center">
+            <button id="btn_action" class="btn btn-lg btn-danger" style="padding: 12px 12%;font-size:24px">Action</button>
+            <button id="btn_clear" class="btn btn-lg btn-info" style="padding: 12px 12%;font-size:24px">Clear</button>
+        </div>
+    </div>
+    <script>
+        var target = document.querySelector('#target');
+
+        target.addEventListener('dragenter', function (e) {
+            this.classList.add('actived');
+        });
+
+        target.addEventListener('dragleave', function (e) {
+            this.classList.remove('actived');
+        });
+
+        target.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+        var fileAll = new Array();
+        target.addEventListener('drop', function (e) {
+            if (e.dataTransfer.files.length) {
+                var fileList = document.querySelector('#fileList');
+                var files = e.dataTransfer.files;
+                for (var i = 0; i < files.length; i++) {
+                    var li = document.createElement('li');
+                    li.setAttribute('class', 'list-group-item');
+                    li.innerHTML = ' <h5 class=\"list-group-item-heading\">' + files[i].name + '</h5>' +
+                        '<p class=\"list-group-item-text\">文件最近修改时间：' + files[i].lastModifiedDate.toLocaleDateString() + ' ' + files[i].lastModifiedDate.toLocaleTimeString() + ' 文件大小：' + (files[i].size / 1024).toFixed(2) + 'KB' + ' 文件类型:' + files[i].type + '</p>';
+
+                    fileList.appendChild(li);
+                    fileAll.push(files[i])
+
+                }
+            } else {
+                var data = e.dataTransfer.getData('text/uri-list')
+                if (data) {
+                    var img = document.createElement('img');
+                    img.src = data;
+                    target.appendChild(img);
+                } else {
+
+                    this.innerHTML = e.dataTransfer.getData('text/plain');
+
+                }
+            }
+
+            this.classList.remove('actived')
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    </script>
+    <script>
+        document.write(process.version)
+    </script>
+    <script>
+        var gui = require('nw.gui');
+        var menubar = new gui.Menu({ type: 'menubar' });
+        var sub1 = new gui.Menu();
+        sub1.append(new gui.MenuItem({
+            label: '退出',
+            click: function () {
+                window.close();
+            }
+        }));
+        menubar.append(new gui.MenuItem({ label: '菜单', submenu: sub1 }));
+        var win = gui.Window.get();
+        win.menu = menubar;
+    </script>
+
+    <script src="js/index.js"></script>
+</body>
+
+</html>

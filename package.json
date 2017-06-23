@@ -1,0 +1,27 @@
+{
+    "name": "md_to_html",
+    "main": "index.html",
+    "description": "demo app of node-webkit",
+    "version": "0.1.0",
+    "keywords": [
+        "demo",
+        "node-webkit"
+    ],
+    "window": {
+        "title": "node-webkit demo",
+        "icon": "img/toy.png",
+        "toolbar": true,
+        "frame": false, //显示窗口栏
+        "width": 400,
+        "height": 600,
+        "position": "center",
+        "min_width": 400,
+        "min_height": 600,
+        "max_width": 1366,
+        "max_height": 768,
+        "show_in_taskbar":true //显示任务栏图标,默认true
+    },
+    "webkit": {
+        "plugin": true
+    }
+}
