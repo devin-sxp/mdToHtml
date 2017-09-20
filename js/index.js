@@ -14,13 +14,12 @@ const marked = require('marked');
             }
         }
     })
-
+    
     btnClear.addEventListener('click',function(e){
         var ulFileList = document.querySelector("#fileList");
         ulFileList.innerHTML = "";
         fileAll.length=0;
     });
-
 })();
 
 let createHtmlFile = (file) => {
